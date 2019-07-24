@@ -1,0 +1,87 @@
+package rnd.statemachine.order;
+
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import rnd.statemachine.AbstractStateTransitionsManager;
+import rnd.statemachine.ProcessData;
+import rnd.statemachine.ProcessException;
+
+/**
+ * This class manages various state transitions 
+ * based on the event
+ * The superclass AbstractStateTransitionsManager
+ * calls the two methods initializeState and 
+ * processStateTransition in that order
+ */
+@RequiredArgsConstructor
+@Slf4j
+@Service
+public class OrderStateTransitionsManager extends AbstractStateTransitionsManager {
+
+    private final ApplicationContext context;
+    private final OrderDbService dbService;
+
+    @Override
+    protected ProcessData processStateTransition(ProcessData sdata) throws ProcessException {
+
+        OrderData data = (OrderData) sdata;
+
+        try {
+            log.info("??**bef event: " + data.getEvent().toString());
+            data = (OrderData) this.context.getBean(data.getEvent().nextStepProcessor(data.getEvent())).process(data);
+            log.info("??**aft event: " + data.getEvent().toString());
+            dbService.getStates().put(data.getOrderId(), (OrderState)data.getEvent().nextState(data.getEvent()));
+            log.info("??**aft state: " + dbService.getStates().get(data.getOrderId()).name());
+            log.info("??*************************************");
+
+        } catch (OrderException e) {
+            log.info("??**aft event: " + ((OrderEvent) data.getEvent()).name());
+            dbService.getStates().put(data.getOrderId(), (OrderState)data.getEvent().nextState(data.getEvent()));
+            log.info("??**aft state: " + dbService.getStates().get(data.getOrderId()).name());
+            log.info("??*************************************");
+            throw new OrderException(((OrderEvent) data.getEvent()).name(), e);
+        }
+        return data;
+    }
+
+    private OrderData checkStateForReturningCustomers(OrderData data) throws OrderException {
+        // returning customers must have a state
+        if (data.getOrderId() != null) {
+            if (this.dbService.getStates().get(data.getOrderId()) == null) {
+                throw new OrderException("No state exists for orderId=" + data.getOrderId());
+            } else if (this.dbService.getStates().get(data.getOrderId()) == OrderState.Completed) {
+                throw new OrderException("Order is completed for orderId=" + data.getOrderId());
+            } else {
+                log.info("??**00 state: " + dbService.getStates().get(data.getOrderId()).name());
+            }
+        }
+        return data;
+    }
+
+    @Override
+    protected ProcessData initializeState(ProcessData sdata) throws OrderException {
+
+        OrderData data = (OrderData) sdata;
+
+        if (data.getOrderId() != null) {
+            return checkStateForReturningCustomers(data);
+        }
+
+        UUID orderId = UUID.randomUUID();
+        data.setOrderId(orderId);
+        dbService.getStates().put(orderId, (OrderState) OrderState.Default);
+
+        log.info("??**0 state: " + dbService.getStates().get(data.getOrderId()).name());
+        return data;
+    }
+
+    public ConcurrentHashMap<UUID, OrderState> getStates() {
+        return dbService.getStates();
+    }
+}
