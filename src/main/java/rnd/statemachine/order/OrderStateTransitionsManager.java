@@ -33,17 +33,17 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
         OrderData data = (OrderData) sdata;
 
         try {
-            log.info("??**bef event: " + data.getEvent().toString());
+            log.info("Pre-event: " + data.getEvent().toString());
             data = (OrderData) this.context.getBean(data.getEvent().nextStepProcessor(data.getEvent())).process(data);
-            log.info("??**aft event: " + data.getEvent().toString());
+            log.info("Post-event: " + data.getEvent().toString());
             dbService.getStates().put(data.getOrderId(), (OrderState)data.getEvent().nextState(data.getEvent()));
-            log.info("??**aft state: " + dbService.getStates().get(data.getOrderId()).name());
+            log.info("Final state: " + dbService.getStates().get(data.getOrderId()).name());
             log.info("??*************************************");
 
         } catch (OrderException e) {
-            log.info("??**aft event: " + ((OrderEvent) data.getEvent()).name());
+            log.info("Post-event: " + ((OrderEvent) data.getEvent()).name());
             dbService.getStates().put(data.getOrderId(), (OrderState)data.getEvent().nextState(data.getEvent()));
-            log.info("??**aft state: " + dbService.getStates().get(data.getOrderId()).name());
+            log.info("Final state: " + dbService.getStates().get(data.getOrderId()).name());
             log.info("??*************************************");
             throw new OrderException(((OrderEvent) data.getEvent()).name(), e);
         }
@@ -58,7 +58,7 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
             } else if (this.dbService.getStates().get(data.getOrderId()) == OrderState.Completed) {
                 throw new OrderException("Order is completed for orderId=" + data.getOrderId());
             } else {
-                log.info("??**00 state: " + dbService.getStates().get(data.getOrderId()).name());
+                log.info("Initial state: " + dbService.getStates().get(data.getOrderId()).name());
             }
         }
         return data;
@@ -77,7 +77,7 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
         data.setOrderId(orderId);
         dbService.getStates().put(orderId, (OrderState) OrderState.Default);
 
-        log.info("??**0 state: " + dbService.getStates().get(data.getOrderId()).name());
+        log.info("Initial state: " + dbService.getStates().get(data.getOrderId()).name());
         return data;
     }
 
