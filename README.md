@@ -9,8 +9,7 @@ This project contains a framework and an illustration of the usage of the framew
 
 1. To use this framework first create a state transitions table like:
  
-Initial State Pre-event    Processor            Post-event       Final State
---------------------------------------------------------------------------- 
+**Initial State Pre-event    Processor            Post-event       Final State**
   DEFAULT    -  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING
   PMTPENDING -  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING
   PMTPENDING -  pay    -> paymentProcessor() -> paymentSuccess -> COMPLETED 
