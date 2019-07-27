@@ -10,9 +10,9 @@ This project contains a framework and an illustration of the usage of the framew
 1. To use this framework first create a state transitions table like:
  
 **Initial State Pre-event    Processor            Post-event       Final State**
-  DEFAULT    -  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING
-  PMTPENDING -  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING
-  PMTPENDING -  pay    -> paymentProcessor() -> paymentSuccess -> COMPLETED 
+  DEFAULT    -  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING </br>
+  PMTPENDING -  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING </br>
+  PMTPENDING -  pay    -> paymentProcessor() -> paymentSuccess -> COMPLETED  </br> 
 
 2. Then implement the interfaces ProcessState and ProcessEvent
 See OrderState and OrderEvent classes for examples
