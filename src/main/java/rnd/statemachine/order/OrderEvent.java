@@ -4,6 +4,11 @@ import rnd.statemachine.ProcessState;
 import rnd.statemachine.ProcessEvent;
 import rnd.statemachine.Processor;
 
+/**  
+ * DEFAULT    -  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING
+ * PMTPENDING -  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING
+ * PMTPENDING -  pay    -> paymentProcessor() -> paymentSuccess -> COMPLETED 
+ */
 public enum OrderEvent implements ProcessEvent {
 
     submit {
