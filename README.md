@@ -9,18 +9,18 @@ This project contains a framework and an illustration of the usage of the framew
 
 1. To use this framework first create a state transitions table like:
   
-**Initial State Pre-event    Processor            Post-event       Final State** </br>
-  DEFAULT    -  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING </br>
-  PMTPENDING -  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING </br>
-  PMTPENDING -  pay    -> paymentProcessor() -> paymentSuccess -> COMPLETED  </br> 
+	**Initial State Pre-event    Processor            Post-event       Final State** </br>
+	DEFAULT    ->  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING </br>
+	PMTPENDING ->  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING </br>
+	PMTPENDING ->  pay    -> paymentProcessor() -> paymentSuccess -> COMPLETED  </br> 
 
 
-2. Then implement the interfaces ProcessState and ProcessEvent
+2. Then implement the interfaces ProcessState and ProcessEvent.
 See OrderState and OrderEvent classes for examples
 
 3. Identify a primary key for the process. For the order process it would be orderId, for a time sheet application it would be userId etc.
 
-4. Implement the tateTransitionsManager. See the OrderStateTransitionsManager class for an example.
+4. Implement the StateTransitionsManager. See the OrderStateTransitionsManager class for an example.
 
 5. Implement the Processor class. See the OrderProcessor and the PaymentProcessor classes for examples.
 
