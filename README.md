@@ -37,3 +37,6 @@ http://localhost:8080/order/pay?payment=123&orderId=123
 (for quick testing in a browser both of the above are implemented as GET APIs)
 
 When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
+
+More information about this project can be found at:</br>
+https://dzone.com/articles/a-simple-state-machine-for-spring-boot-projects
