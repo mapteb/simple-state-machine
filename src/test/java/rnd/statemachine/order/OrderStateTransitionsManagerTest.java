@@ -66,4 +66,16 @@ public class OrderStateTransitionsManagerTest {
         
         assertThat(transitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.Completed);
     }
+    
+    @Test(expected = OrderException.class)
+    public void givenOrderPayWithUnknownOrderId_thenAssertOrderExceptionIsThrown() throws Exception {
+        OrderData data = OrderData.builder()
+                .event(OrderEvent.pay)
+                .orderId(MockData.unknownOrderId)
+                .payment(0.00)
+                .build();
+
+        transitionsManager = new OrderStateTransitionsManager(context, dbService);
+        data = (OrderData)transitionsManager.processEvent(data);        
+    }    
 }

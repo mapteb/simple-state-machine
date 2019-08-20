@@ -2,7 +2,6 @@ package rnd.statemachine.order;
 
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
 import rnd.statemachine.ProcessData;
 import rnd.statemachine.ProcessException;
 import rnd.statemachine.Processor;

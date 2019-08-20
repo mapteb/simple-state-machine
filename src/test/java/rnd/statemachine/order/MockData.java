@@ -6,6 +6,7 @@ class MockData {
 
     static final UUID orderId = UUID.fromString("cacb4fd3-0139-4402-8ad7-9e8c5aba368a");
     static final UUID unknownOrderId = UUID.fromString("cacb4fd3-0139-4402-8ad7-9e8c5aba368b");
+    static final String illegalStateMessage = "Unknown orderId";
     
     static OrderData SubmitSuccessData() {
         return OrderData.builder()

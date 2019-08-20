@@ -17,13 +17,20 @@ public enum OrderEvent implements ProcessEvent {
                 return OrderProcessor.class;
         }
         
+        /**
+         * This event has no effect on state so return current state
+         */
         @Override
         public ProcessState nextState(ProcessEvent event) {
-                return null;
+                return OrderState.Default;
         }
 
     },
     orderCreated {
+    	/**
+    	 * This event does not trigger any process
+    	 * So return null 
+    	 */
         @Override
         public Class<? extends Processor> nextStepProcessor(ProcessEvent event) {
             return null;
@@ -41,12 +48,19 @@ public enum OrderEvent implements ProcessEvent {
                 return PaymentProcessor.class;
         }
         
+        /**
+         * This event has no effect on state so return current state
+         */
         @Override
         public ProcessState nextState(ProcessEvent event) {
-                return null;
+                return OrderState.PaymentPending;
         }
     },
     paymentSuccess {
+    	/**
+    	 * This event does not trigger any process
+    	 * So return null 
+    	 */
         @Override
         public Class<? extends Processor> nextStepProcessor(ProcessEvent event) {
             return null;
@@ -58,6 +72,10 @@ public enum OrderEvent implements ProcessEvent {
         }
     },
     paymentError {
+    	/**
+    	 * This event does not trigger any process
+    	 * So return null 
+    	 */
         @Override
         public Class<? extends Processor> nextStepProcessor(ProcessEvent event) {
             return null;
