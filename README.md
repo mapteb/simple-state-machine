@@ -18,7 +18,7 @@ This project contains a framework and an illustration of the usage of the framew
 2. Then implement the interfaces ProcessState and ProcessEvent.
 See OrderState and OrderEvent classes for examples
 
-3. Identify a primary key for the process. For the order process it would be orderId, for a time sheet application it would be userId etc.
+3. Identify a primary key for the process. For the order process it would be orderId, for a time sheet application it would be userId-week-ending-date etc.
 
 4. Implement the StateTransitionsManager. See the OrderStateTransitionsManager class for an example.
 
