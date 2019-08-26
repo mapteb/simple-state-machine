@@ -15,8 +15,8 @@ import rnd.statemachine.ProcessException;
 public class OrderController {
     private final OrderStateTransitionsManager stateTrasitionsManager;
 
-    @GetMapping("/order/pay")
-    public String handleTurnstilePay( 
+    @GetMapping("/order/cart")
+    public String handleOrderPayment( 
             @RequestParam double payment,
             @RequestParam UUID orderId) throws Exception {
 
@@ -34,8 +34,8 @@ public class OrderController {
         return e.getMessage();
     }
     
-    @GetMapping("/order/submit")
-    public String handleTurnstileTurn() throws ProcessException {
+    @GetMapping("/order")
+    public String handleOrderSubmit() throws ProcessException {
 
         OrderData data = new OrderData();
         data.setEvent(OrderEvent.submit);

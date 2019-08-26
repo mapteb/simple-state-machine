@@ -30,9 +30,9 @@ That is it. If you found this framework useful then it would help if you could a
 
 For the order sample considered in this project, the following two APIs are created to test the state machine:
 
-http://localhost:8080/order/submit
+http://localhost:8080/order
 
-http://localhost:8080/order/pay?payment=123&orderId=123
+http://localhost:8080/order/cart?payment=123&orderId=123
 
 (for quick testing in a browser both of the above are implemented as GET APIs)
 
