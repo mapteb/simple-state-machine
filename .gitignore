@@ -2,6 +2,7 @@
 .project
 .classpath
 .settings
+bin/
 build-eclipse/
 
 # gradle stuff
