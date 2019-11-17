@@ -44,8 +44,7 @@ http://localhost:8080/order/cart?payment=123&orderId=123
 When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
 
 The ideas used in this Java project can be easily extended to Javascript front end applications. Here is an example:
-https://github.com/mapteb/js-state-machine-v2
+<https://github.com/mapteb/js-state-machine-v2>
 
-
-More information about this project can be found at:</br>
-https://dzone.com/articles/a-simple-state-machine-for-spring-boot-projects
+More information about this project can be found at:
+<https://dzone.com/articles/a-simple-state-machine-for-spring-boot-projects>
