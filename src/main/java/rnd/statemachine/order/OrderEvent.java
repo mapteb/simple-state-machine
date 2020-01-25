@@ -67,7 +67,6 @@ public enum OrderEvent implements ProcessEvent {
         }
         @Override
         public ProcessState nextState(ProcessEvent event) {
-            // TODO Auto-generated method stub
                 return OrderState.Completed;
         }
     },
