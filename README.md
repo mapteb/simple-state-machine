@@ -1,10 +1,12 @@
-# simple-state-machine
+# The Simple State Machine
 
 A simple state machine for Spring Boot projects
 
 After importing into an IDE like STS can be run as Spring Boot application.
 
 This project contains a framework and an illustration of the usage of the framework for a sample project like online order processing.
+
+This project doesn't use the [Spring Statemachine](https://projects.spring.io/spring-statemachine/) is a manual implementation.
 
 ## Usage
 
@@ -49,3 +51,14 @@ The technique used in this Java project can be easily adapted to Angular applica
 
 More information about this project can be found at:
 <https://dzone.com/articles/a-simple-state-machine-for-spring-boot-projects>
+
+### Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+### Contributors
+
+- [Nalla Senthilnathan (Creator)](https://github.com/mapteb) 
+- [Guilherme Biff Zarelli](github.com/gbzarelli)

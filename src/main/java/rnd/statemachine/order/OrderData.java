@@ -6,20 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import rnd.statemachine.ProcessData;
-import rnd.statemachine.ProcessEvent;
+import rnd.statemachine.manager.ProcessData;
+import rnd.statemachine.order.statemachine.OrderEvent;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter @Getter
+@Getter
 @Builder
-public class OrderData implements ProcessData {
-	private double payment;
-	private ProcessEvent event;
-	private UUID orderId;
-	@Override
-	public ProcessEvent getEvent() {
-		return this.event;
-	}
+public class OrderData implements ProcessData<OrderEvent> {
+
+  private double payment;
+  private UUID orderId;
+
+  @Getter(onMethod = @__(@Override))
+  private OrderEvent event;
+
 }

@@ -1,6 +1,6 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.exception;
 
-import rnd.statemachine.ProcessException;
+import rnd.statemachine.manager.exception.ProcessException;
 
 public class OrderException extends ProcessException {
 
