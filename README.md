@@ -43,7 +43,7 @@ When the above APIs are called the console log displays the state transitions th
 
 A non-blocking version of this project is at: <https://github.com/mapteb/non-blocking-state-machine>
 
-The technique used in this Java project can be easily adapted to Angular applications. Here is an [Angular example](https://github.com/mapteb/angular-a-development-pattern).
+The technique used in this Java project can be easily adapted to Angular applications. Here is an [Angular example](https://github.com/mapteb/new-approach-to-angular-development).
 
 ### More Info
 
