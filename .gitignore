@@ -8,3 +8,6 @@ build-eclipse/
 # gradle stuff
 .gradle/
 build/
+
+# VS Code files
+.vscode/

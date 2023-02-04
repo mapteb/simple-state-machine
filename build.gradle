@@ -6,8 +6,8 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 group = 'rnd.statemachine'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+version = '0.0.2-SNAPSHOT'
+sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
