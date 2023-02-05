@@ -1,5 +1,7 @@
 # simple-state-machine
 
+A refactored versin of this exists in the [branch](https://github.com/mapteb/simple-state-machine/tree/refactor-1).
+
 A simple state machine for Spring Boot projects
 
 After importing into an IDE like STS can be run as Spring Boot application.
