@@ -11,7 +11,7 @@ class MockData {
     static OrderData SubmitSuccessData() {
         return OrderData.builder()
                 .orderId(orderId)
-                .event(OrderEvent.orderCreated)
+                .event(OrderEvent.orderSuccess)
                 .build();
     }
     

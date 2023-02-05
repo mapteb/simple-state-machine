@@ -10,7 +10,7 @@ import rnd.statemachine.ProcessException;
 public class OrderProcessor implements Processor {
     @Override
     public ProcessData process(ProcessData data) throws ProcessException{   
-        ((OrderData)data).setEvent(OrderEvent.orderCreated); 
+        ((OrderData)data).setEvent(OrderEvent.orderSuccess); 
         return data;
     }
 }

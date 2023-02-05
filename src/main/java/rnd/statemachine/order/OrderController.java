@@ -38,7 +38,7 @@ public class OrderController {
     public String handleOrderSubmit() throws ProcessException {
 
         OrderData data = new OrderData();
-        data.setEvent(OrderEvent.submit);
+        data.setEvent(OrderEvent.order);
         data = (OrderData)stateTrasitionsManager.processEvent(data);
         
         return ((OrderEvent)data.getEvent()).name() + ", orderId = " + data.getOrderId();

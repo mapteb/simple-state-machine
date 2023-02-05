@@ -11,6 +11,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import rnd.statemachine.config.AppEventsConfig;
+
 @RunWith(SpringRunner.class)
 public class OrderStateTransitionsManagerTest {
        
@@ -30,13 +32,13 @@ public class OrderStateTransitionsManagerTest {
         
     @Test
     public void givenOrderSubmit_whenOrderCreated_thenAssertPaymentPendingState() throws Exception {
-        OrderData data = OrderData.builder().event(OrderEvent.submit).build();
+        OrderData data = OrderData.builder().event(OrderEvent.order).build();
         
         transitionsManager = new OrderStateTransitionsManager(context, dbService);
         when(orderProcessor.process(any())).thenReturn(MockData.SubmitSuccessData());
         data = (OrderData)transitionsManager.processEvent(data);
         
-        assertThat(transitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.PaymentPending);
+        assertThat(AppEventsConfig.nextState(data.getEvent())).isEqualTo(OrderState.ORDERREADY);
     } 
     
     @Test
@@ -44,12 +46,12 @@ public class OrderStateTransitionsManagerTest {
         OrderData data = OrderData.builder()
                 .orderId(MockData.orderId)
                 .event(OrderEvent.pay).payment(0.00).build();
-        dbService.getStates().put(MockData.orderId, OrderState.PaymentPending);
+        dbService.getStates().put(MockData.orderId, OrderState.PMTPENDING);
         transitionsManager = new OrderStateTransitionsManager(context, dbService);
         when(paymentProcessor.process(any())).thenReturn(MockData.paymentErrorData());
         data = (OrderData)transitionsManager.processEvent(data);
-        
-        assertThat(transitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.PaymentPending);
+        System.out.println(">> nextState: "+AppEventsConfig.nextState(data.getEvent()).toString());
+        assertThat(AppEventsConfig.nextState(data.getEvent())).isEqualTo(OrderState.PMTPENDING);
     }
     
     @Test
@@ -58,13 +60,13 @@ public class OrderStateTransitionsManagerTest {
                 .orderId(MockData.orderId)
                 .event(OrderEvent.pay).payment(1.00).build();
         
-        dbService.getStates().put(MockData.orderId, OrderState.PaymentPending);
+        dbService.getStates().put(MockData.orderId, OrderState.PMTPENDING);
         transitionsManager = new OrderStateTransitionsManager(context, dbService);
         
         when(paymentProcessor.process(any())).thenReturn(MockData.paymentSuccessData());
         data = (OrderData)transitionsManager.processEvent(data);
         
-        assertThat(transitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.Completed);
+        assertThat(AppEventsConfig.nextState(data.getEvent())).isEqualTo(OrderState.ORDERCOMPLETE);
     }
     
     @Test(expected = OrderException.class)

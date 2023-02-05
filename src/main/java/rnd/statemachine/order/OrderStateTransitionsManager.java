@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import rnd.statemachine.AbstractStateTransitionsManager;
 import rnd.statemachine.ProcessData;
 import rnd.statemachine.ProcessException;
+import rnd.statemachine.config.AppEventsConfig;
 
 /**
  * This class manages various state transitions 
@@ -34,18 +35,18 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
 
         try {
             log.info("Pre-event: " + data.getEvent().toString());
-            data = (OrderData) this.context.getBean(data.getEvent().nextStepProcessor(data.getEvent())).process(data);
+            data = (OrderData) this.context.getBean(AppEventsConfig.nextStepProcessor(data.getEvent())).process(data);
             log.info("Post-event: " + data.getEvent().toString());
-            dbService.getStates().put(data.getOrderId(), (OrderState)data.getEvent().nextState(data.getEvent()));
+            dbService.getStates().put(data.getOrderId(), (OrderState)AppEventsConfig.nextState(data.getEvent()));
             log.info("Final state: " + dbService.getStates().get(data.getOrderId()).name());
             log.info("??*************************************");
 
         } catch (OrderException e) {
-            log.info("Post-event: " + ((OrderEvent) data.getEvent()).name());
-            dbService.getStates().put(data.getOrderId(), (OrderState)data.getEvent().nextState(data.getEvent()));
+            log.info("Post-event: " + data.getEvent().toString());
+            dbService.getStates().put(data.getOrderId(), (OrderState)AppEventsConfig.nextState(data.getEvent()));
             log.info("Final state: " + dbService.getStates().get(data.getOrderId()).name());
             log.info("??*************************************");
-            throw new OrderException(((OrderEvent) data.getEvent()).name(), e);
+            throw new OrderException(data.getEvent().toString(), e);
         }
         return data;
     }
@@ -55,7 +56,7 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
         if (data.getOrderId() != null) {
             if (this.dbService.getStates().get(data.getOrderId()) == null) {
                 throw new OrderException("No state exists for orderId=" + data.getOrderId());
-            } else if (this.dbService.getStates().get(data.getOrderId()) == OrderState.Completed) {
+            } else if (this.dbService.getStates().get(data.getOrderId()) == OrderState.ORDERCOMPLETE) {
                 throw new OrderException("Order is completed for orderId=" + data.getOrderId());
             } else {
                 log.info("Initial state: " + dbService.getStates().get(data.getOrderId()).name());
@@ -75,7 +76,7 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
 
         UUID orderId = UUID.randomUUID();
         data.setOrderId(orderId);
-        dbService.getStates().put(orderId, (OrderState) OrderState.Default);
+        dbService.getStates().put(orderId, (OrderState) OrderState.PRODUCTSREADY);
 
         log.info("Initial state: " + dbService.getStates().get(data.getOrderId()).name());
         return data;

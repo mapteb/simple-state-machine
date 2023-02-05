@@ -3,12 +3,13 @@ package rnd.statemachine.order;
 import rnd.statemachine.ProcessState;
 
 /**  
- * DEFAULT    -  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING
- * PMTPENDING -  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING
- * PMTPENDING -  pay    -> paymentProcessor() -> paymentSuccess -> COMPLETED 
+ * PRODUCTSREADY  -  order  -> orderProcessor()   -> orderSuccess   -> ORDERREADY
+ * ORDERREADY     -  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING
+ * PMTPENDING     -  pay    -> paymentProcessor() -> paymentSuccess -> ORDERCOMPLETE
  */
 public enum OrderState implements ProcessState {
-    Default,
-    PaymentPending,    
-    Completed;
+    PRODUCTSREADY,
+    ORDERREADY,
+    PMTPENDING,    
+    ORDERCOMPLETE;
 }
