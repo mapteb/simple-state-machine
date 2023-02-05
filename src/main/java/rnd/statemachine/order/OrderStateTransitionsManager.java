@@ -1,5 +1,6 @@
 package rnd.statemachine.order;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,13 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 import rnd.statemachine.AbstractStateTransitionsManager;
 import rnd.statemachine.ProcessData;
 import rnd.statemachine.ProcessException;
+import rnd.statemachine.ProcessState;
 import rnd.statemachine.config.AppEventsConfig;
 
 /**
- * This class manages various state transitions 
- * based on the event
+ * This class manages various state transitions defined in the AppEventsConfig
+ * class
+ * 
  * The superclass AbstractStateTransitionsManager
- * calls the two methods initializeState and 
+ * calls the two methods initializeState and
  * processStateTransition in that order
  */
 @RequiredArgsConstructor
@@ -28,26 +31,38 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
     private final ApplicationContext context;
     private final OrderDbService dbService;
 
+    /**
+     * This method calls the configured processor for a given pre-event
+     * Also saves the final state of each transition to the db.
+     * Optionally, can validate the begin state
+     * 
+     * @param processData ProcessData
+     * @return ProcessData
+     * @throws ProcessException
+     */
     @Override
-    protected ProcessData processStateTransition(ProcessData sdata) throws ProcessException {
+    protected ProcessData processStateTransition(ProcessData processData) throws ProcessException {
 
-        OrderData data = (OrderData) sdata;
+        OrderData data = (OrderData) processData;
 
-        try {
-            log.info("Pre-event: " + data.getEvent().toString());
-            data = (OrderData) this.context.getBean(AppEventsConfig.nextStepProcessor(data.getEvent())).process(data);
-            log.info("Post-event: " + data.getEvent().toString());
-            dbService.getStates().put(data.getOrderId(), (OrderState)AppEventsConfig.nextState(data.getEvent()));
-            log.info("Final state: " + dbService.getStates().get(data.getOrderId()).name());
-            log.info("??*************************************");
-
-        } catch (OrderException e) {
-            log.info("Post-event: " + data.getEvent().toString());
-            dbService.getStates().put(data.getOrderId(), (OrderState)AppEventsConfig.nextState(data.getEvent()));
-            log.info("Final state: " + dbService.getStates().get(data.getOrderId()).name());
-            log.info("??*************************************");
-            throw new OrderException(data.getEvent().toString(), e);
+        // validate bigin state
+        final List<ProcessState> processStates = AppEventsConfig.beginStates(data.getEvent());
+        if (!this.dbService.getStates().values().stream().filter(s -> processStates.contains(s)).findAny()
+                .isPresent()) {
+            throw new ProcessException("Begin State not found");
         }
+
+        // call the configured processor
+        log.info("Begin State: " + AppEventsConfig.beginStates(data.getEvent()).toString());
+        log.info("Pre-event: " + data.getEvent().toString());
+        data = (OrderData) this.context.getBean(AppEventsConfig.nextStepProcessor(data.getEvent())).process(data);
+        log.info("Post-event: " + data.getEvent().toString());
+
+        // persist the End State to the DB
+        dbService.getStates().put(data.getOrderId(), (OrderState) AppEventsConfig.nextState(data.getEvent()));
+        log.info("Final state: " + AppEventsConfig.nextState(data.getEvent()).toString());
+        log.info("*************************************");
+
         return data;
     }
 

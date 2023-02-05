@@ -1,5 +1,8 @@
 package rnd.statemachine.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import rnd.statemachine.ProcessEvent;
 import rnd.statemachine.ProcessState;
 import rnd.statemachine.Processor;
@@ -14,6 +17,27 @@ import rnd.statemachine.order.PaymentProcessor;
  */
 public class AppEventsConfig {
 
+    /**
+     * Returns valid begin states for a given pre-event
+     * @param event ProcessEvent - should be a pre-event
+     * @return List<ProcessState>
+     */
+    public static List<ProcessState> beginStates(ProcessEvent preEvent) {
+        switch (preEvent.toString()) {
+            case "order":
+                return Arrays.asList(OrderState.PRODUCTSREADY);
+            case "pay":
+                return Arrays.asList(OrderState.ORDERREADY, OrderState.PMTPENDING);
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Returns the processor's Class object for a given trigger event 
+     * @param event ProcessEvent
+     * @return Class<? extends Processor>
+     */
     public static Class<? extends Processor> nextStepProcessor(ProcessEvent event) {
         switch (event.toString()) {
             case "order":
@@ -25,8 +49,13 @@ public class AppEventsConfig {
         }
     }
 
-    public static ProcessState nextState(ProcessEvent event) {
-        switch (event.toString()) {
+    /**
+     * Returns valid next state for a given post-event
+     * @param event ProcessEvent - should be a post-event
+     * @return ProcessState
+     */
+    public static ProcessState nextState(ProcessEvent postEvent) {
+        switch (postEvent.toString()) {
             case "orderSuccess":
                 return OrderState.ORDERREADY;
             case "paymentError":
