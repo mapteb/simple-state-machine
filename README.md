@@ -8,7 +8,8 @@ After importing into an IDE like STS can be run as Spring Boot application.
 
 This project contains a framework and an illustration of the usage of the framework for a sample project like online order processing.
 
-## Usage
+
+## Usage Workflow
 
 |Initial State |Pre-event |   Processor    |        Post-event  |  Final State  |
 | --- | --- | --- | --- | --- |  
@@ -29,16 +30,23 @@ See OrderState and OrderEvent classes for examples
 
 6. Create a controller class. See the OrderController for an example.
 
-That is it.
 
-For the order sample considered in this project, the following two APIs are created to test the state machine:
+### Unit Testing
 
-http://localhost:8080/order
+Unit tests can be run using the "\gradlew test" command.
 
-http://localhost:8080/order/cart?payment=123&orderId=123
 
-(for quick testing in a browser both of the above are implemented as GET APIs)
+### Integration Testing
 
+The application can be run using the ".\gradlew bootRun" command. For the order sample considered in this project, the following two APIs are created to test the order process:
+ 
+1. User request to create an order. This API is implemented as GET so it can be tested quickly in the browser.
+http://localhost:8080/order << creates an order and returns an orderId. Selected product ids are not included in this demo example  >>
+
+2. User makes a payment. This API is also implemented as GET so it can be tested quickly in the browser.
+http://localhost:8080/order/cart?payment=123&orderId=123 << where orderId is the UUID returned by the first API. Payment value less than 1.00 is considered for the error transition >>
+
+<< for quick testing in a browser both of the above are implemented as GET APIs >>
 When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
 
 ### Related Projects
