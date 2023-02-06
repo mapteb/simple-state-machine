@@ -31,12 +31,12 @@ Unit tests can be run using the "\gradlew test" command.
 The application can be run using the ".\gradlew bootRun" command. For the order sample considered in this project, the following two APIs are created to test the order process:
  
 1. User request to create an order. This API is implemented as GET so it can be tested quickly in the browser.
-http://localhost:8080/order << creates an order and returns an orderId >>
+http://localhost:8080/order << creates an order and returns an orderId. Selected product ids are not included in this demo example  >>
 
 2. User makes a payment. This API is also implemented as GET so it can be tested quickly in the browser.
-http://localhost:8080/order/cart?payment=123&orderId=123
+http://localhost:8080/order/cart?payment=123&orderId=123 << where orderId is the UUID returned by the first API. Payment value less than 1.00 is considered for the error transition >>
 
-(for quick testing in a browser both of the above are implemented as GET APIs)
+<< for quick testing in a browser both of the above are implemented as GET APIs >>
 
 When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
 
