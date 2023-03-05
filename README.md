@@ -40,14 +40,6 @@ http://localhost:8080/order/cart?payment=123&orderId=123 << where orderId is the
 
 When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
 
-
-### Related Projects
-
-A non-blocking version of this project is at: <https://github.com/mapteb/non-blocking-state-machine>
-
-The technique used in this Java project can be easily adapted to Angular applications. Here is an [Angular example](https://github.com/mapteb/smart-component-for-angular-projects).
-
-
 ### Also see
 
 1. Spring Framework's [State Machine libray](https://docs.spring.io/spring-statemachine/docs/current/reference/)
