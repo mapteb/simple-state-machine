@@ -51,4 +51,4 @@ When the above APIs are called the console log displays the state transitions th
 
 ## Related
 
-The ideas used in this project can be adopted in Angular projects. See, for instance, https://github.com/mapteb/framework-for-angular-development
+The ideas used in this project can also be adopted in Angular projects. See, for instance, https://github.com/mapteb/framework-for-angular-development
