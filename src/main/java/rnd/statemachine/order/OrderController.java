@@ -13,7 +13,7 @@ import rnd.statemachine.ProcessException;
 @RequiredArgsConstructor
 @RestController
 public class OrderController {
-    private final OrderStateTransitionsManager stateTrasitionsManager;
+    private final OrderStateTransitionsManager stateTransitionsManager;
 
     @GetMapping("/order/cart")
     public String handleOrderPayment( 
@@ -24,7 +24,7 @@ public class OrderController {
     	data.setPayment(payment);
     	data.setOrderId(orderId);
     	data.setEvent(OrderEvent.pay);
-    	data = (OrderData)stateTrasitionsManager.processEvent(data);
+    	data = (OrderData) stateTransitionsManager.processEvent(data);
     	
         return ((OrderEvent)data.getEvent()).name();
     }
@@ -39,7 +39,7 @@ public class OrderController {
 
         OrderData data = new OrderData();
         data.setEvent(OrderEvent.submit);
-        data = (OrderData)stateTrasitionsManager.processEvent(data);
+        data = (OrderData) stateTransitionsManager.processEvent(data);
         
         return ((OrderEvent)data.getEvent()).name() + ", orderId = " + data.getOrderId();
     }
