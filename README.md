@@ -49,6 +49,6 @@ http://localhost:8080/order/cart?payment=123&orderId=123 << where orderId is the
 << for quick testing in a browser both of the above are implemented as GET APIs >>
 When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
 
-## Related
+## Related Projects
 
 The ideas used in this project can also be adopted in Angular projects. See, for instance, https://github.com/mapteb/framework-for-angular-development
