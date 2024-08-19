@@ -4,8 +4,8 @@ A simple state machine for Spring Boot projects. This project contains a framewo
 
 ## Benefits
 
-Enables building robust applications,
-Simplifies writing unit tests,
+Enables building robust applications,<br>
+Simplifies writing unit tests,<br>
 Enables adding new processes faster.
 
 ## Usage Workflow
