@@ -58,8 +58,6 @@ When the above APIs are called the console log displays the state transitions th
 
 A refactored versin of this exists in the [branch](https://github.com/mapteb/simple-state-machine/tree/refactor-1).
 
-The ideas used in this project can also be adopted in Angular projects. See, for instance, https://github.com/mapteb/framework-for-angular-development
-
 ### Also See
 
 Spring Framework's [State Machine libray](https://docs.spring.io/spring-statemachine/docs/current/reference/)
