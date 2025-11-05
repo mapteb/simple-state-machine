@@ -43,15 +43,27 @@ Run the command ".\gradlew bootRun" at the prject root.
 
 ### Integration Testing
 
-For the order sample considered in this project, the following two APIs are created to test the order process:
+For the order sample considered in this project, the following APIs are called to test the order process:
  
 1. User request to create an order. This API is implemented as GET so it can be tested quickly in the browser.
-http://localhost:8080/order << creates an order and returns an orderId. Selected product ids are not included in this demo example  >>
+```
+http://localhost:8080/order 
+<< creates an order and returns an orderId (as a UUID). Selected product ids are not included in this demo example  >>
+```
 
-2. User makes a payment. This API is also implemented as GET so it can be tested quickly in the browser.
-http://localhost:8080/order/cart?payment=123&orderId=123 << where orderId is the UUID returned by the first API. Payment value less than 1.00 is considered for the error transition >>
+2. User makes a wrong payment. This API is also implemented as GET so it can be tested quickly in the browser.
+```
+http://localhost:8080/order/cart?payment=0&orderId=UUID 
+<< where UUID is  the orderId returned by the first API. Payment value less than 1.00 is considered for the error transition >>
+```
 
-<< for quick testing in a browser both of the above are implemented as GET APIs >>
+3. User makes a payment. This API is also implemented as GET so it can be tested quickly in the browser.
+```
+http://localhost:8080/order/cart?payment=123&orderId=UUID 
+<< where UUID is  the orderId returned by the first API. >>
+```
+
+<< for quick testing in a browser all of the above APIs are implemented as GET APIs >>
 When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
 
 ### Related Projects

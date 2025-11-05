@@ -1,13 +1,18 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'java'
+	id 'org.springframework.boot' version '3.5.6'
+	id 'io.spring.dependency-management' version '1.1.7'
 }
 
-apply plugin: 'io.spring.dependency-management'
+group = 'rnd'
+version = '0.0.1-SNAPSHOT'
+description = 'Design pattern project for Spring Boot'
 
-group = 'rnd.statemachine'
-version = '0.0.2-SNAPSHOT'
-sourceCompatibility = '11'
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
 
 configurations {
 	compileOnly {
@@ -24,4 +29,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
 }
