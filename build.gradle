@@ -35,3 +35,15 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+test {
+    testLogging {
+        events "passed", "failed", "skipped"
+        showStandardStreams = true
+        exceptionFormat "full"
+    }
+
+    afterTest { descriptor, result ->
+        println "Test: ${descriptor.name} - ${result.resultType}"
+    }
+}

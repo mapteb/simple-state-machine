@@ -35,7 +35,7 @@ Run the command ".\gradlew build" at the project root
 
 ### Unit Testing
 
-Unit tests can be run using the ".\gradlew test" command at the project root.
+Unit tests can be run using the ".\gradlew clean build" command at the project root.
 
 ### Build and Deploy
 
