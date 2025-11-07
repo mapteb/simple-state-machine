@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * This test class tests the three state transitions
+ * This class tests the three state transitions
  * DEFAULT    ->	submit ->	orderProcessor()   ->	orderCreated   ->	PMTPENDING
  * PMTPENDING ->	pay    ->	paymentProcessor() ->	paymentError   ->	PMTPENDING
  * PMTPENDING ->	pay    ->	paymentProcessor() ->	paymentSuccess ->	COMPLETED
@@ -41,9 +41,9 @@ public class OrderStateTransitionsManagerTest {
     public void givenOrderPaySubmitAndWrongPay_thenAssertPaymentPendingState() throws Exception {
         this.dbService.getStates().put(MockData.getOrderId(), (OrderState) OrderState.PaymentPending);
         OrderData data = MockData.OrderWrongPaySubmitData();
-
         orderStateTransitionsManager = new OrderStateTransitionsManager(context, dbService);
-        
+
+        assertThrows(OrderException.class, () -> orderStateTransitionsManager.processEvent(data));        
         assertThat(orderStateTransitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.PaymentPending);
     }  
     
@@ -51,8 +51,8 @@ public class OrderStateTransitionsManagerTest {
     public void givenOrderPaySubmit_thenAssertCompletedState() throws Exception {
         this.dbService.getStates().put(MockData.getOrderId(), (OrderState) OrderState.PaymentPending);
         OrderData data = MockData.OrderPaySubmitData();
-
         orderStateTransitionsManager = new OrderStateTransitionsManager(context, dbService);
+
         data = (OrderData)orderStateTransitionsManager.processEvent(data);
         
         assertThat(orderStateTransitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.Completed);
