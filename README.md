@@ -5,7 +5,7 @@ A simple state machine for Spring Boot projects. This project contains a framewo
 ## Benefits
 
 Enables building robust applications,<br>
-Simplifies writing unit tests,<br>
+Simplifies writing unit tests by testing state transitions listed in the requirements specs.<br>
 Enables adding new processes faster.
 
 ## Usage Workflow
@@ -54,13 +54,13 @@ http://localhost:8080/order
 2. User makes a wrong payment. This API is also implemented as GET so it can be tested quickly in the browser.
 ```
 http://localhost:8080/order/cart?payment=0&orderId=UUID 
-<< where UUID is  the orderId returned by the first API. Payment value less than 1.00 is considered for the error transition >>
+<< where UUID is  the orderId returned by the API call in Step #1. Returns paymentError status. Payment value less than 1.00 is considered for the error transition >>
 ```
 
 3. User makes a payment. This API is also implemented as GET so it can be tested quickly in the browser.
 ```
 http://localhost:8080/order/cart?payment=123&orderId=UUID 
-<< where UUID is  the orderId returned by the first API. >>
+<< where UUID is  the orderId returned by API call in Step #1 above. Returns Completed status >>
 ```
 
 << for quick testing in a browser all of the above APIs are implemented as GET APIs >>

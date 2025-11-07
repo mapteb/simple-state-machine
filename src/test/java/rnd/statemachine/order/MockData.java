@@ -11,7 +11,29 @@ public class MockData {
     static UUID getOrderId() {
         return orderId;
     }
+
+    static OrderData CreateOrderSubmitData() {
+        return OrderData.builder()
+                .orderId(null)
+                .event(OrderEvent.submit)
+                .build();
+    }
+
+    static OrderData OrderPaySubmitData() {
+        return OrderData.builder()
+                .orderId(orderId)
+                .payment(123.00d)
+                .event(OrderEvent.pay)
+                .build();
+    }    
     
+    static OrderData OrderWrongPaySubmitData() {
+        return OrderData.builder()
+                .orderId(orderId)
+                .payment(0)
+                .event(OrderEvent.pay)
+                .build();
+    }    
     static OrderData SubmitSuccessData() {
         return OrderData.builder()
                 .orderId(orderId)
