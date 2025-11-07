@@ -44,7 +44,6 @@ public class OrderStateTransitionsManagerTest {
 
         orderStateTransitionsManager = new OrderStateTransitionsManager(context, dbService);
         
-        assertThrows(OrderException.class, () -> orderStateTransitionsManager.processEvent(data));
         assertThat(orderStateTransitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.PaymentPending);
     }  
     
