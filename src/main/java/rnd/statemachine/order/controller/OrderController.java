@@ -19,6 +19,7 @@ import rnd.statemachine.order.state.OrderStateTransitionsManager;
 public class OrderController {
     private final OrderStateTransitionsManager stateTransitionsManager;
 
+    // for quick browser testing we are using a GET api
     @GetMapping("/order/cart")
     public String handleOrderPayment( 
             @RequestParam double payment,
@@ -38,6 +39,7 @@ public class OrderController {
         return e.getMessage();
     }
     
+    // for quick browser testing we are using a GET api
     @GetMapping("/order")
     public String handleOrderSubmit() throws ProcessException {
 

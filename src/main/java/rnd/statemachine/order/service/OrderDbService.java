@@ -10,6 +10,7 @@ import rnd.statemachine.order.state.OrderState;
 @Component
 public class OrderDbService {
     
+    // for this demo we are using a Map store
     private ConcurrentHashMap<UUID, OrderState> states = new ConcurrentHashMap<UUID, OrderState>();
 
     public ConcurrentHashMap<UUID, OrderState> getStates() {

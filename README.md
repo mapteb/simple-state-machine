@@ -1,6 +1,6 @@
-## simple-state-machine
+## Simple Statemachine
 
-A simple state machine for Spring Boot projects. This project contains a framework and a sample usage of the framework for a project like online order processing.
+A simple statemachine for Spring Boot projects. This project presents a simple statemachine framework and a sample usage of the framework for a project like an online order processing.
 
 ### Application Requirements
 
@@ -15,7 +15,7 @@ In this approach we write the requirements as a set of state transitions. In thi
 
 ### Benefits
 
-By writing the requirements as a set of state transitions we derive the following benefits:
+By writing the requirements as a set of state transitions we get the following benefits:
 
 Enables building robust applications since the application can only be in one of the three known states specified in the requirements.<br>
 Simplifies writing unit tests since writing three tests for the three processors implies 100% code coverage.<br>
@@ -38,11 +38,11 @@ See OrderState and OrderEvent classes for examples
 
 ### Build
 
-Run the command ".\gradlew build" at the project root
+Run the command ".\gradlew clean build" at the project root
 
 ### Unit Testing
 
-Unit tests can be run using the ".\gradlew clean build" command at the project root.
+Unit tests can be run using the ".\gradlew test" command at the project root.
 
 ### Build and Deploy
 
@@ -67,16 +67,13 @@ http://localhost:8080/order/cart?payment=0&orderId=UUID
 3. User makes a payment. This API is also implemented as GET so it can be tested quickly in the browser.
 ```
 http://localhost:8080/order/cart?payment=123&orderId=UUID 
-<< where UUID is  the orderId returned by API call in Step #1 above. Returns Completed status >>
+<< where UUID is  the orderId returned by the API call in Step #1 above. Returns Completed status >>
 ```
 
 << for quick testing in a browser all of the above APIs are implemented as GET APIs >>
 When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
 
-### Related Projects
-
-A refactored versin of this exists in the [branch](https://github.com/mapteb/simple-state-machine/tree/refactor-1).
 
 ### Also See
 
-Spring Framework's [State Machine libray](https://docs.spring.io/spring-statemachine/docs/current/reference/)
+Spring has a more comprehensive statemachine Framework - [Spring Statemachine](https://docs.spring.io/spring-statemachine/docs/current/reference/)
