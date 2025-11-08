@@ -26,7 +26,8 @@ public class OrderStateTransitionsManagerTest {
     @Autowired
     private ApplicationContext context;
     
-    private OrderDbService dbService = new OrderDbService();
+    @Autowired
+    private OrderDbService dbService;
 
     @Autowired
     private OrderStateTransitionsManager orderStateTransitionsManager;    
