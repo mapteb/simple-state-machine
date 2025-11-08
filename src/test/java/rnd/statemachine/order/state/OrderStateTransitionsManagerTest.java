@@ -1,4 +1,4 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.state;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,10 +11,6 @@ import org.springframework.context.ApplicationContext;
 
 import rnd.statemachine.order.exception.OrderException;
 import rnd.statemachine.order.service.OrderDbService;
-import rnd.statemachine.order.state.OrderData;
-import rnd.statemachine.order.state.OrderState;
-import rnd.statemachine.order.state.OrderStateTransitionsManager;
-
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**

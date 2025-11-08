@@ -1,9 +1,6 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.state;
 
 import java.util.UUID;
-
-import rnd.statemachine.order.state.OrderData;
-import rnd.statemachine.order.state.OrderEvent;
 
 public class MockData {
 
@@ -11,7 +8,7 @@ public class MockData {
     static final UUID unknownOrderId = UUID.fromString("cacb4fd3-0139-4402-8ad7-9e8c5aba368b");
     static final String illegalStateMessage = "Unknown orderId";
 
-    static UUID getOrderId() {
+    public static UUID getOrderId() {
         return orderId;
     }
 
