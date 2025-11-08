@@ -1,8 +1,8 @@
-# simple-state-machine
+## simple-state-machine
 
-A simple state machine framework for Spring Boot projects. This project contains the framework and an illustration of the usage of the framework for a sample project like online order processing.
+A simple state machine for Spring Boot projects. This project contains a framework and a sample usage of the framework for a project like online order processing.
 
-## Application Requirements
+### Application Requirements
 
 In this approach we write the requirements as a set of state transitions. In this demo the order state transitions are considered.
 
@@ -13,7 +13,7 @@ In this approach we write the requirements as a set of state transitions. In thi
 |PMTPENDING ->|  pay    ->| paymentProcessor() ->| paymentSuccess ->| COMPLETED |
 
 
-## Benefits
+### Benefits
 
 By writing the requirements as a set of state transitions we derive the following benefits:
 
@@ -21,8 +21,7 @@ Enables building robust applications since the application can only be in one of
 Simplifies writing unit tests since writing three tests for the three processors implies 100% code coverage.<br>
 Enables adding new processes faster due to the modular nature of the framework.
 
-## Usage Workflow
-
+### Usage Workflow
 
 1. To use this framework first create a state transitions table like above.
 
