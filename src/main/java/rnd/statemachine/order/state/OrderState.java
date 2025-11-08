@@ -1,6 +1,6 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.state;
 
-import rnd.statemachine.ProcessState;
+import rnd.statemachine.core.ProcessState;
 
 /**  
  * DEFAULT    -  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING

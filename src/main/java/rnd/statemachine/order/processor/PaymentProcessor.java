@@ -1,10 +1,13 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.processor;
 
 import org.springframework.stereotype.Service;
 
-import rnd.statemachine.ProcessData;
-import rnd.statemachine.ProcessException;
-import rnd.statemachine.Processor;
+import rnd.statemachine.core.ProcessData;
+import rnd.statemachine.core.ProcessException;
+import rnd.statemachine.core.Processor;
+import rnd.statemachine.order.exception.PaymentException;
+import rnd.statemachine.order.state.OrderData;
+import rnd.statemachine.order.state.OrderEvent;
 
 @Service
 public class PaymentProcessor implements Processor {

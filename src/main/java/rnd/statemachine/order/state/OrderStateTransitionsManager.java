@@ -1,16 +1,17 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.state;
 
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.Objects;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import rnd.statemachine.AbstractStateTransitionsManager;
-import rnd.statemachine.ProcessData;
-import rnd.statemachine.ProcessException;
+import rnd.statemachine.core.AbstractStateTransitionsManager;
+import rnd.statemachine.core.ProcessData;
+import rnd.statemachine.core.ProcessException;
+import rnd.statemachine.core.Processor;
+import rnd.statemachine.order.exception.OrderException;
+import rnd.statemachine.order.service.OrderDbService;
 
 /**
  * This class manages various state transitions 
@@ -33,8 +34,9 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
         OrderData data = (OrderData) sdata;
 
         try {
-            log.info("Pre-event: " + data.getEvent().toString());
-            data = (OrderData) this.context.getBean(data.getEvent().nextStepProcessor(data.getEvent())).process(data);
+            log.info("Pre-event: " + data.getEvent().toString());  
+            Processor processor = this.context.getBean(Objects.requireNonNull(data.getEvent().nextStepProcessor(data.getEvent())));         
+            data = (OrderData) processor.process(data);
             log.info("Post-event: " + data.getEvent().toString());
             dbService.getStates().put(data.getOrderId(), (OrderState)data.getEvent().nextState(data.getEvent()));
             log.info("Final state: " + dbService.getStates().get(data.getOrderId()).name());
@@ -50,6 +52,7 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
         return data;
     }
 
+    /*
     private OrderData checkStateForReturningCustomers(OrderData data) throws OrderException {
         // returning customers must have a state
         if (data.getOrderId() != null) {
@@ -64,7 +67,7 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
         return data;
     }
 
-    @Override
+     @Override
     protected ProcessData initializeState(ProcessData sdata) throws OrderException {
 
         OrderData data = (OrderData) sdata;
@@ -83,5 +86,5 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
 
     public ConcurrentHashMap<UUID, OrderState> getStates() {
         return dbService.getStates();
-    }
+    } */
 }

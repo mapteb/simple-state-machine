@@ -1,4 +1,4 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.controller;
 
 import java.util.UUID;
 
@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import rnd.statemachine.ProcessException;
+import rnd.statemachine.core.ProcessException;
+import rnd.statemachine.order.exception.OrderException;
+import rnd.statemachine.order.state.OrderData;
+import rnd.statemachine.order.state.OrderEvent;
+import rnd.statemachine.order.state.OrderStateTransitionsManager;
 
 @RequiredArgsConstructor
 @RestController

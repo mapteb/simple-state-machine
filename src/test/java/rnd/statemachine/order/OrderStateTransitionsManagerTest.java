@@ -8,6 +8,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+
+import rnd.statemachine.order.exception.OrderException;
+import rnd.statemachine.order.service.OrderDbService;
+import rnd.statemachine.order.state.OrderData;
+import rnd.statemachine.order.state.OrderState;
+import rnd.statemachine.order.state.OrderStateTransitionsManager;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -31,10 +38,11 @@ public class OrderStateTransitionsManagerTest {
     @Test
     public void givenCreateOrderSubmit_thenAssertPaymentPendingState() throws Exception {
         OrderData data = MockData.CreateOrderSubmitData();
+        orderStateTransitionsManager = new OrderStateTransitionsManager(context, dbService);
 
         data = (OrderData)orderStateTransitionsManager.processEvent(data);
         
-        assertThat(orderStateTransitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.PaymentPending);
+        assertThat(dbService.getStates().get(data.getOrderId())).isEqualTo(OrderState.PaymentPending);
     } 
 
     @Test
@@ -44,7 +52,7 @@ public class OrderStateTransitionsManagerTest {
         orderStateTransitionsManager = new OrderStateTransitionsManager(context, dbService);
 
         assertThrows(OrderException.class, () -> orderStateTransitionsManager.processEvent(data));        
-        assertThat(orderStateTransitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.PaymentPending);
+        assertThat(dbService.getStates().get(data.getOrderId())).isEqualTo(OrderState.PaymentPending);
     }  
     
     @Test
@@ -55,6 +63,6 @@ public class OrderStateTransitionsManagerTest {
 
         data = (OrderData)orderStateTransitionsManager.processEvent(data);
         
-        assertThat(orderStateTransitionsManager.getStates().get(data.getOrderId())).isEqualTo(OrderState.Completed);
+        assertThat(dbService.getStates().get(data.getOrderId())).isEqualTo(OrderState.Completed);
     }         
 }

@@ -1,4 +1,4 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.state;
 
 import java.util.UUID;
 
@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rnd.statemachine.ProcessData;
-import rnd.statemachine.ProcessEvent;
+import rnd.statemachine.core.ProcessData;
+import rnd.statemachine.core.ProcessEvent;
 
 @NoArgsConstructor
 @AllArgsConstructor

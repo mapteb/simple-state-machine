@@ -1,4 +1,4 @@
-package rnd.statemachine.order;
+package rnd.statemachine.order.exception;
 
 public class PaymentException extends OrderException  {
 
