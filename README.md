@@ -18,7 +18,7 @@ In this approach we write the requirements as a set of state transitions. In thi
 By writing the requirements as a set of state transitions we get the following benefits:
 
 Enables building robust applications since the application can only be in one of the three known states specified in the requirements.<br>
-Simplifies writing unit tests since writing three tests for the three processors implies 100% code coverage.<br>
+Simplifies writing unit tests since writing three tests for the three processors ensures 100% code coverage.<br>
 Enables adding new processes faster due to the modular nature of the framework.
 
 ### Usage Workflow
