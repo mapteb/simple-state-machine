@@ -1,6 +1,9 @@
-package rnd.statemachine.order.state;
+package rnd.statemachine.order;
 
 import java.util.UUID;
+
+import rnd.statemachine.order.state.OrderData;
+import rnd.statemachine.order.state.OrderEvent;
 
 public class MockData {
 
@@ -12,14 +15,14 @@ public class MockData {
         return orderId;
     }
 
-    static OrderData CreateOrderSubmitData() {
+    public static OrderData CreateOrderSubmitData() {
         return OrderData.builder()
                 .orderId(null)
                 .event(OrderEvent.submit)
                 .build();
     }
 
-    static OrderData OrderPaySubmitData() {
+    public static OrderData OrderPaySubmitData() {
         return OrderData.builder()
                 .orderId(orderId)
                 .payment(123.00d)
@@ -27,31 +30,11 @@ public class MockData {
                 .build();
     }    
     
-    static OrderData OrderWrongPaySubmitData() {
+    public static OrderData OrderWrongPaySubmitData() {
         return OrderData.builder()
                 .orderId(orderId)
                 .payment(0)
                 .event(OrderEvent.pay)
                 .build();
     }    
-    static OrderData SubmitSuccessData() {
-        return OrderData.builder()
-                .orderId(orderId)
-                .event(OrderEvent.submit)
-                .build();
-    }
-    
-    static OrderData paymentSuccessData() {
-        return OrderData.builder()
-                .orderId(orderId)
-                .event(OrderEvent.paymentSuccess)
-                .build();
-    }
-    
-    static OrderData paymentErrorData() {
-        return OrderData.builder()
-                .event(OrderEvent.paymentError)
-                .orderId(orderId)
-                .build();
-    }
 }

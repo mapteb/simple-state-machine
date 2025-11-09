@@ -25,7 +25,10 @@ Enables adding new processes faster due to the modular nature of the framework.
 
 1. To use this framework first create a state transitions table like above.
 
-2. Then Configure the transitions in the enums - [OrderState](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/order/state/OrderState.java) and [OrderEvent](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/order/state/OrderEvent.java)
+2. Then Configure the transitions in the enums and in the processor registry:
+   - [OrderState](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/order/state/OrderState.java)
+   - [OrderEvent](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/order/state/OrderEvent.java)
+   - [EventProcessoryRegistry](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/order/state/EventProcessorRegistry.java)
 
 3. Identify a primary key for the process. For the order process it would be orderId, for a time sheet application it would be userId-week-ending-date etc. (In this demo we store the state in a HashMap. Also, for this quick demo we do not store the state history.)
 
