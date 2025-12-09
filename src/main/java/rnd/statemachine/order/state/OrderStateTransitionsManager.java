@@ -49,40 +49,4 @@ public class OrderStateTransitionsManager extends AbstractStateTransitionsManage
         }
         return data;
     }
-
-    /*
-    private OrderData checkStateForReturningCustomers(OrderData data) throws OrderException {
-        // returning customers must have a state
-        if (data.getOrderId() != null) {
-            if (this.dbService.getStates().get(data.getOrderId()) == null) {
-                throw new OrderException("No state exists for orderId=" + data.getOrderId());
-            } else if (this.dbService.getStates().get(data.getOrderId()) == OrderState.Completed) {
-                throw new OrderException("Order is completed for orderId=" + data.getOrderId());
-            } else {
-                log.info("Initial state: " + dbService.getStates().get(data.getOrderId()).name());
-            }
-        }
-        return data;
-    }
-
-     @Override
-    protected ProcessData initializeState(ProcessData sdata) throws OrderException {
-
-        OrderData data = (OrderData) sdata;
-
-        if (data.getOrderId() != null) {
-            return checkStateForReturningCustomers(data);
-        }
-
-        UUID orderId = UUID.randomUUID();
-        data.setOrderId(orderId);
-        dbService.getStates().put(orderId, (OrderState) OrderState.Default);
-
-        log.info("Initial state: " + dbService.getStates().get(data.getOrderId()).name());
-        return data;
-    }
-
-    public ConcurrentHashMap<UUID, OrderState> getStates() {
-        return dbService.getStates();
-    } */
 }
