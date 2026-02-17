@@ -3,6 +3,8 @@ package rnd.statemachine.order.state;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,24 +13,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import rnd.statemachine.order.MockData;
 import rnd.statemachine.order.exception.OrderException;
+import rnd.statemachine.order.exception.PaymentException;
 import rnd.statemachine.order.service.OrderDbService;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * This class tests the three state transitions
- * DEFAULT    ->	submit ->	orderProcessor()   ->	orderCreated   ->	PMTPENDING
- * PMTPENDING ->	pay    ->	paymentProcessor() ->	paymentError   ->	PMTPENDING
- * PMTPENDING ->	pay    ->	paymentProcessor() ->	paymentSuccess ->	COMPLETED
+ * 
+ * DEFAULT        ->  CHECKOUT -> orderProcessor()   -> ORDERCREATED   -> PAYMENTPENDING
+ * PAYMENTPENDING ->  PAY      -> paymentProcessor() -> PAYMENTERROR   -> PAYMENTPENDING
+ * PAYMENTPENDING ->  PAY      -> paymentProcessor() -> PAYMENTSUCCESS -> PAYMENTSUCCESS
  */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-public class OrderStateTransitionsManagerTest {
+class OrderStateTransitionsManagerTest {
     
     @Autowired
     private OrderDbService dbService;
     
     @Autowired
     private OrderStateTransitionsManager orderStateTransitionsManager;
+
+    UUID testOrderId = MockData.getOrderId();
     
     @BeforeEach
     void setUp() {
@@ -36,32 +42,41 @@ public class OrderStateTransitionsManagerTest {
     }
     
     @Test
-    public void givenCreateOrderSubmit_thenAssertPaymentPendingState() throws Exception {
-        OrderData data = MockData.CreateOrderSubmitData();
+    void whenCreateOrder_thenAssertPaymentPendingState() {
+        OrderData data = MockData.createOrderSubmitData();
         data = (OrderData) orderStateTransitionsManager.processEvent(data);
+        testOrderId = data.getOrderId();
         
-        assertThat(dbService.getStates().get(data.getOrderId()))
-            .isEqualTo(OrderState.PaymentPending);
+        assertThat(dbService.getStates()).containsEntry(data.getOrderId(), OrderState.PAYMENTPENDING);
     } 
     
     @Test
-    public void givenOrderPaySubmitAndWrongPay_thenAssertPaymentPendingState() {
-        dbService.getStates().put(MockData.getOrderId(), OrderState.PaymentPending);
-        OrderData data = MockData.OrderWrongPaySubmitData();
+    void givenInvalidPaymentAmount_whenPayForOrder_shouldThrowPaymentException() {
+        dbService.getStates().put(testOrderId, OrderState.PAYMENTPENDING);
+        OrderData data = MockData.orderWrongPaySubmitData(testOrderId);
         
-        assertThrows(OrderException.class, 
+        assertThrows(PaymentException.class, 
             () -> orderStateTransitionsManager.processEvent(data));
-        assertThat(dbService.getStates().get(data.getOrderId()))
-            .isEqualTo(OrderState.PaymentPending);
+        assertThat(dbService.getStates()).containsEntry(data.getOrderId(), OrderState.PAYMENTPENDING);
     }  
     
     @Test
-    public void givenOrderPaySubmit_thenAssertCompletedState() throws Exception {
-        dbService.getStates().put(MockData.getOrderId(), OrderState.PaymentPending);
-        OrderData data = MockData.OrderPaySubmitData();
+    void givenValidPaymentAmount_whenPayForOrder_thenAssertPaymentSuccessState() {
+        dbService.getStates().put(testOrderId, OrderState.PAYMENTPENDING);
+        OrderData data = MockData.orderPaySubmitData(testOrderId);
         data = (OrderData) orderStateTransitionsManager.processEvent(data);
         
-        assertThat(dbService.getStates().get(data.getOrderId()))
-            .isEqualTo(OrderState.Completed);
-    }         
+        assertThat(dbService.getStates()).containsEntry(data.getOrderId(), OrderState.PAYMENTSUCCESS);
+    }     
+    
+    @Test
+    void givenPaymentSuccessState_whenPayForOrder_shouldThrowPaymentException() {
+        dbService.getStates().put(testOrderId, OrderState.PAYMENTSUCCESS);
+        OrderData data = MockData.orderPaySubmitData(testOrderId);
+        
+        assertThrows(PaymentException.class, 
+            () -> orderStateTransitionsManager.processEvent(data));
+        // State should remain PAYMENTSUCCESS
+        assertThat(dbService.getStates()).containsEntry(data.getOrderId(), OrderState.PAYMENTSUCCESS);
+    }    
 }

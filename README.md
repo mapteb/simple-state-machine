@@ -4,13 +4,16 @@ A simple statemachine for Spring Boot projects. This project presents a simple s
 
 ### Application Requirements
 
-In this approach we write the requirements as a set of state transitions. In this demo the order state transitions are considered.
+In this approach we write the requirements as a set of state transitions. For this demo the following state transitions are considered.
+```
+  Initial State  |  Pre-event |   Processor         |   Post-event    |   Final State
 
-|Initial State |Pre-event |   Processor    |        Post-event  |  Final State  |
-| --- | --- | --- | --- | --- |  
-|DEFAULT    ->|  submit ->| orderProcessor() ->| orderCreated   -> |PMTPENDING |
-|PMTPENDING -> | pay    ->| paymentProcessor() ->| paymentError   -> |PMTPENDING |
-|PMTPENDING ->|  pay    ->| paymentProcessor() ->| paymentSuccess ->| COMPLETED |
+  DEFAULT        ->  CHECKOUT -> orderProcessor()   -> ORDERCREATED   -> PAYMENTPENDING
+  PAYMENTPENDING ->  PAY      -> paymentProcessor() -> PAYMENTERROR   -> PAYMENTPENDING
+  PAYMENTPENDING ->  PAY      -> paymentProcessor() -> PAYMENTSUCCESS -> PAYMENTSUCCESS
+ 
+```
+where the PAYMENTERROR is thrown as an exception so the Final State remains unchanged.
 
 
 ### Benefits
@@ -38,10 +41,6 @@ Enables adding new processes faster due to the modular nature of the framework.
 
 6. Create a controller class. See the OrderController for an example.
 
-### Build
-
-Run the command ".\gradlew clean build" at the project root
-
 ### Unit Testing
 
 Unit tests can be run using the ".\gradlew test" command at the project root.
@@ -54,27 +53,31 @@ Run the command ".\gradlew bootRun" at the prject root.
 
 For the order sample considered in this project, the following APIs are called to test the order process:
  
-1. User request to create an order. This API is implemented as GET so it can be tested quickly in the browser.
+1. Test the CHECKOUT event
 ```
-http://localhost:8080/order 
-<< creates an order and returns an orderId (as a UUID). Selected product ids are not included in this demo example  >>
+In this demo example the shopping cart content is not considered so RequestBody is empty. This API just creates an order and returns an orderId (as a UUID).
+
+curl -X POST "http://localhost:8080/api/orders" -H "accept: */*" -H "Content-Type: application/json"
+
+<< This API returns an ORDERCREATED response with an orderId >>
+```
+2. Test the error path PAY event with an invalid amount (state remains unchanged due to error)
+```
+An invalid payment (0.0) is submitted. We use the orderId returned from the above API.
+
+curl -X POST "http://localhost:8080/api/orders/607b8d29-18d6-4f41-966e-7c26484a742a" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"payment\": 0.0, \"orderId\": \"607b8d29-18d6-4f41-966e-7c26484a742a\" }" -v
+
+<< This API return an HTTP 500 error response >>
 ```
 
-2. User makes a wrong payment. This API is also implemented as GET so it can be tested quickly in the browser.
+3. Test the happy  path PAY event
 ```
-http://localhost:8080/order/cart?payment=0&orderId=UUID 
-<< where UUID is  the orderId returned by the API call in Step #1. Returns paymentError status. Payment value less than 1.00 is considered for the error transition >>
-```
+A valid payment (1.0) is submitted. We use the orderId returned from the above Step #1.
 
-3. User makes a payment. This API is also implemented as GET so it can be tested quickly in the browser.
-```
-http://localhost:8080/order/cart?payment=123&orderId=UUID 
-<< where UUID is  the orderId returned by the API call in Step #1 above. Returns Completed status >>
-```
+curl -X POST "http://localhost:8080/api/orders/607b8d29-18d6-4f41-966e-7c26484a742a" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"payment\": 1.0, \"orderId\": \"607b8d29-18d6-4f41-966e-7c26484a742a\" }"
 
-<< for quick testing in a browser all of the above APIs are implemented as GET APIs >>
-When the above APIs are called the console log displays the state transitions that reflect the above table. (Note: payment=0 is used to mock payment error in this example)
-
+<< This API returns PAYMENTSUCCESS response >>
+```
 
 ### Also See
 

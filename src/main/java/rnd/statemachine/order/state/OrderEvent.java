@@ -3,16 +3,16 @@ package rnd.statemachine.order.state;
 import rnd.statemachine.core.ProcessEvent;
 
 /**  
- * DEFAULT    -  submit -> orderProcessor()   -> orderCreated   -> PMTPENDING
- * PMTPENDING -  pay    -> paymentProcessor() -> paymentError   -> PMTPENDING
- * PMTPENDING -  pay    -> paymentProcessor() -> paymentSuccess -> COMPLETED 
+ * DEFAULT        ->  CHECKOUT -> orderProcessor()   -> ORDERCREATED   -> PAYMENTPENDING
+ * PAYMENTPENDING ->  PAY      -> paymentProcessor() -> PAYMENTERROR   -> PAYMENTPENDING
+ * PAYMENTPENDING ->  PAY      -> paymentProcessor() -> PAYMENTSUCCESS -> PAYMENTSUCCESS
  */
 public enum OrderEvent implements ProcessEvent {
-    submit,
-    orderCreated,
-    pay,
-    paymentSuccess,
-    paymentError;
+    CHECKOUT,
+    ORDERCREATED,
+    PAY,
+    PAYMENTERROR,
+    PAYMENTSUCCESS, PAYMENTPENDING
 }
 
 

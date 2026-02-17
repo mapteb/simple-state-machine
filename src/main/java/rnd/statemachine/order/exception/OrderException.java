@@ -1,8 +1,6 @@
 package rnd.statemachine.order.exception;
-
-import rnd.statemachine.core.ProcessException;
-
-public class OrderException extends ProcessException {
+ 
+public class OrderException extends RuntimeException {
 
     private static final long serialVersionUID = 5587859227419203629L;
     

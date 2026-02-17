@@ -2,50 +2,45 @@ package rnd.statemachine.order.controller;
 
 import java.util.UUID;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import rnd.statemachine.core.ProcessException;
-import rnd.statemachine.order.exception.OrderException;
 import rnd.statemachine.order.state.OrderData;
 import rnd.statemachine.order.state.OrderEvent;
 import rnd.statemachine.order.state.OrderStateTransitionsManager;
 
 @RequiredArgsConstructor
+@RequestMapping("/api/orders")
 @RestController
 public class OrderController {
     private final OrderStateTransitionsManager stateTransitionsManager;
-
-    @GetMapping("/order/cart")
-    public String handleOrderPayment( 
-            @RequestParam double payment,
-            @RequestParam UUID orderId) throws Exception {
-
-        OrderData data = new OrderData();
-    	data.setPayment(payment);
-    	data.setOrderId(orderId);
-    	data.setEvent(OrderEvent.pay);
-    	data = (OrderData) stateTransitionsManager.processEvent(data);
-    	
-        return ((OrderEvent)data.getEvent()).name();
-    }
-    
-    @ExceptionHandler(value=OrderException.class)
-    public String handleOrderException(OrderException e) {
-        return e.getMessage();
-    }
-    
-    @GetMapping("/order")
-    public String handleOrderSubmit() throws ProcessException {
-
-        OrderData data = new OrderData();
-        data.setEvent(OrderEvent.submit);
-        data = (OrderData) stateTransitionsManager.processEvent(data);
         
-        return ((OrderEvent)data.getEvent()).name() + ", orderId = " + data.getOrderId();
+    // Creates an order and returns the orderId. The order is created in PAYMENTPENDING state.
+    // For this demo the cart content is not included. 
+    @PostMapping
+    public String createOrder(@RequestBody(required = false) OrderData orderData) {
+        if (orderData == null) {
+        	orderData = new OrderData();
+        }       
+        orderData.setEvent(OrderEvent.CHECKOUT);
+        orderData = (OrderData) stateTransitionsManager.processEvent(orderData);
+        
+        return ((OrderEvent)orderData.getEvent()).name() + ", orderId = " + orderData.getOrderId();
     }
+    
+    // Pays for an order. The orderId is passed as a path variable and the payment amount 
+    // is passed in the request body.
+    @PostMapping("/{orderId}")
+    public String payForOrder(@PathVariable UUID orderId, @RequestBody OrderData orderData) {
+
+    	orderData.setEvent(OrderEvent.PAY);
+    	orderData = (OrderData) stateTransitionsManager.processEvent(orderData);
+    	
+        return ((OrderEvent)orderData.getEvent()).name();
+    }    
 }
 

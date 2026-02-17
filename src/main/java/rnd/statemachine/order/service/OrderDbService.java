@@ -2,6 +2,7 @@ package rnd.statemachine.order.service;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.stereotype.Component;
 
@@ -10,9 +11,9 @@ import rnd.statemachine.order.state.OrderState;
 @Component
 public class OrderDbService {
     
-    private ConcurrentHashMap<UUID, OrderState> states = new ConcurrentHashMap<UUID, OrderState>();
+    private ConcurrentMap<UUID, OrderState> states = new ConcurrentHashMap<>();
 
-    public ConcurrentHashMap<UUID, OrderState> getStates() {
+    public ConcurrentMap<UUID, OrderState> getStates() {
         return states;
     }
 }

@@ -1,6 +1,6 @@
 package rnd.statemachine.order.exception;
-
-public class PaymentException extends OrderException  {
+ 
+public class PaymentException extends RuntimeException{
 
     private static final long serialVersionUID = -4582470401926451120L;
 
