@@ -51,6 +51,10 @@ Run the command ".\gradlew bootRun" at the prject root.
 
 ### Integration Testing
 
+The Swagger UI can be used for integration testing http://localhost:8080/swagger-ui/index.html
+
+OR the following CURL commands can be used to test the APIs:
+
 For the order sample considered in this project, the following APIs are called to test the order process:
  
 1. Test the CHECKOUT event
