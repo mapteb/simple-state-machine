@@ -17,10 +17,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-// import org.springframework.boot.webmvc.test.autoconfigure.webmvctest;
 
 
 @WebMvcTest(OrderController.class)
@@ -51,7 +51,7 @@ class OrderControllerTest {
         mockMvc.perform(post("/api/orders")
                         .contentType("application/json")
                         .content(MockData.createOrderSubmitDataJson())) // Empty JSON body for checkout 
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().string(expectedResponse));
 
         // Ensure the manager was called
@@ -63,7 +63,7 @@ class OrderControllerTest {
         when(stateTransitionsManager.processEvent(any(OrderData.class)))
                 .thenThrow(PaymentException.class);
 
-        mockMvc.perform(post("/api/orders/" + testOrderId)
+        mockMvc.perform(put("/api/orders/" + testOrderId)
                         .contentType("application/json")
                         .content(MockData.orderWrongPaySubmitDataJson(testOrderId)))       
                 .andExpect(status().isInternalServerError());
@@ -80,7 +80,7 @@ class OrderControllerTest {
         when(stateTransitionsManager.processEvent(any(OrderData.class)))
                 .thenReturn(mockResult);
 
-        mockMvc.perform(post("/api/orders/" + testOrderId)
+        mockMvc.perform(put("/api/orders/" + testOrderId)
                         .contentType("application/json")
                         .content(MockData.orderPaySubmitDataJson(testOrderId)))       
                 .andExpect(status().isOk())
@@ -96,7 +96,7 @@ class OrderControllerTest {
         when(stateTransitionsManager.processEvent(any(OrderData.class)))
                 .thenThrow(PaymentException.class);
 
-        mockMvc.perform(post("/api/orders/" + testOrderId)
+        mockMvc.perform(put("/api/orders/" + testOrderId)
                         .contentType("application/json")
                         .content(MockData.orderPaySubmitDataJson(testOrderId)))       
                 .andExpect(status().isInternalServerError());

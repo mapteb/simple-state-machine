@@ -69,16 +69,16 @@ curl -X POST "http://localhost:8080/api/orders" -H "accept: */*" -H "Content-Typ
 ```
 An invalid payment (0.0) is submitted. We use the orderId returned from the above API.
 
-curl -X POST "http://localhost:8080/api/orders/607b8d29-18d6-4f41-966e-7c26484a742a" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"payment\": 0.0, \"orderId\": \"607b8d29-18d6-4f41-966e-7c26484a742a\" }" -v
+curl -X PUT "http://localhost:8080/api/orders/607b8d29-18d6-4f41-966e-7c26484a742a" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"payment\": 0.0, \"orderId\": \"607b8d29-18d6-4f41-966e-7c26484a742a\" }" -v
 
 << This API return an HTTP 500 error response >>
 ```
 
 3. Test the happy  path PAY event
 ```
-A valid payment (1.0) is submitted. We use the orderId returned from the above Step #1.
+Update the order created in step #1. A valid payment (>= 1.0) is submitted. We use the orderId returned from the above Step #1.
 
-curl -X POST "http://localhost:8080/api/orders/607b8d29-18d6-4f41-966e-7c26484a742a" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"payment\": 1.0, \"orderId\": \"607b8d29-18d6-4f41-966e-7c26484a742a\" }"
+curl -X PUT "http://localhost:8080/api/orders/607b8d29-18d6-4f41-966e-7c26484a742a" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"payment\": 1.0, \"orderId\": \"607b8d29-18d6-4f41-966e-7c26484a742a\" }"
 
 << This API returns PAYMENTSUCCESS response >>
 ```

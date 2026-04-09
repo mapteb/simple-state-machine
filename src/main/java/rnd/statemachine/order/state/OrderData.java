@@ -19,11 +19,14 @@ import rnd.statemachine.core.ProcessEvent;
 public class OrderData implements ProcessData {
 	// For this demo the cart details are not included. 
 	// This field is just for demonstration and is not used in the state machine logic.
-	private String cartData;
-	private double payment;
+	@Builder.Default
+	private String cartData = "";
+	@Builder.Default
+	private double payment = 0.0d;
 	@JsonIgnore
 	private ProcessEvent event;
-	private UUID orderId;
+	@Builder.Default
+	private UUID orderId = null;
 	@Override
 	public ProcessEvent getEvent() {
 		return this.event;
