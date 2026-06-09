@@ -1,1 +1,10 @@
 
+spring:
+  application:
+    name: SimpleStateMachine
+  mvc:
+    problemdetails.enabled: true
+
+logging:
+  level:
+    com.example.servingwebcontent: INFO 

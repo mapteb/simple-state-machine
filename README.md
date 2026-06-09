@@ -1,10 +1,10 @@
 ## Simple Statemachine
 
-A simple statemachine for Spring Boot projects. This project presents a simple statemachine framework and a sample usage of the framework for a project like an online order processing.
+A simple statemachine for Spring Boot projects. This project presents a simple statemachine framework and a sample usage of the framework for a project like an online order processing. This approach is best suited for business processes that involve multiple steps. Benefits of using this approach are discussed below.
 
 ### Application Requirements
 
-In this approach we write the requirements as a set of state transitions. For this demo the following state transitions are considered.
+When a business process involves multiple steps, we envision a workflow and write the requirements as a set of state transitions. For this demo a business process like customer creates an order and pays for the order is considered. The workflow steps with the following state transitions are considered.
 ```
   Initial State  |  Pre-event |   Processor         |   Post-event    |   Final State
 
@@ -20,36 +20,35 @@ where the PAYMENTERROR is thrown as an exception so the Final State remains unch
 
 By writing the requirements as a set of state transitions we get the following benefits:
 
-Enables building robust applications since the application can only be in one of the three known states specified in the requirements.<br>
-Simplifies writing unit tests since writing three tests for the three processors ensures 100% code coverage.<br>
-Enables adding new processes faster due to the modular nature of the framework.
+1. Enables building robust applications since the application can only be in one of the listed states specified in the requirements.<br>
+1. Simplifies writing unit tests since writing three tests for the three processors ensures 100% code coverage.<br>
+1. Enables adding new steps to the business process faster due to the modular nature of the framework.
 
-### Usage Workflow
+### Framework Usage
 
-1. To use this framework first create a state transitions table like above.
+To use this framework for a business process that has multiple steps, first create a state transitions table like the one above.
 
-2. Then Configure the transitions in the enums and in the processor registry:
-   - [OrderState](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/order/state/OrderState.java)
-   - [OrderEvent](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/order/state/OrderEvent.java)
-   - [EventProcessoryRegistry](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/order/state/EventProcessorRegistry.java)
+1. Then Configure the state and event enums and the state transition rules in the EventProcessorRegistry:
+   - [OrderState](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderState.java)
+   - [OrderEvent](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderEvent.java)
+   - [OrderEventType](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderEventType.java)   
+   - [OrderEventProcessorRegistry](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/EventProcessorRegistry.java)
 
-3. Identify a primary key for the process. For the order process it would be orderId, for a time sheet application it would be userId-week-ending-date etc. (In this demo we store the state in a HashMap. Also, for this quick demo we do not store the state history.)
+1. Setup a table to track the state values. In this demo we store the state in a HashMap. Also, for this quick demo we do not store the state history.
 
-4. Implement the StateTransitionsManager. See the OrderStateTransitionsManager class for an example.
+1. Implement the Processor class for each step. See the OrderProcessor and the PaymentProcessor classes for examples.
 
-5. Implement the Processor class. See the OrderProcessor and the PaymentProcessor classes for examples.
-
-6. Create a controller class. See the OrderController for an example.
-
-### Unit Testing
-
-Unit tests can be run using the ".\gradlew test" command at the project root.
+1. Create a controller class. See the OrderController for an example.
 
 ### Build and Deploy
 
 Run the command ".\gradlew bootRun" at the prject root.
 
 ### Integration Testing
+
+Integration tests can be run using the ".\gradlew test" command at the project root.
+
+### Swagger Testing
 
 The Swagger UI can be used for integration testing http://localhost:8080/swagger-ui/index.html
 
@@ -61,7 +60,7 @@ For the order sample considered in this project, the following APIs are called t
 ```
 In this demo example the shopping cart content is not considered so RequestBody is empty. This API just creates an order and returns an orderId (as a UUID).
 
-curl -X POST "http://localhost:8080/api/orders" -H "accept: */*" -H "Content-Type: application/json"
+curl -X POST "http://localhost:8080/api/orders" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"userId\": 123, \"cartData\": \"3 pencils\" }"
 
 << This API returns an ORDERCREATED response with an orderId >>
 ```
