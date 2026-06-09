@@ -26,19 +26,22 @@ By writing the requirements as a set of state transitions we get the following b
 
 ### Framework Usage
 
-To use this framework for a business process that has multiple steps, first create a state transitions table like the one above.
+To use this framework for a business process that has multiple steps
 
+1. Identify and model the business process steps as state transitions like the one above
 1. Then Configure the state and event enums and the state transition rules in the EventProcessorRegistry:
    - [OrderState](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderState.java)
    - [OrderEvent](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderEvent.java)
    - [OrderEventType](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderEventType.java)   
    - [OrderEventProcessorRegistry](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/EventProcessorRegistry.java)
 
-1. Setup a table to track the state values. In this demo we store the state in a HashMap. Also, for this quick demo we do not store the state history.
+1. Setup a table to track the state values. In this demo we store the state in a HashMap. Also, for this quick demo we do not store the state history. Note that all the steps in a given process have one primary key. In the example above orderId is used as the key across the steps. In a business process like a timesheet application the key would be composite key like endOfWeekDate-userId, etc.
 
 1. Implement the Processor class for each step. See the OrderProcessor and the PaymentProcessor classes for examples.
 
 1. Create a controller class. See the OrderController for an example.
+
+1. 
 
 ### Build and Deploy
 
