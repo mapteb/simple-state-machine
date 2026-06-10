@@ -42,8 +42,8 @@ class OrderControllerTest {
                 // Ensure the manager was called
                 int status = mvcTestResult.getResponse().getStatus();
                 assertThat(status).isEqualTo(201);
-                OrderDataResponse orderData = objectMapper.readValue(mvcTestResult.getResponse().getContentAsString(),
-                                OrderDataResponse.class);
+                OrderWorkflowResponse orderData = objectMapper.readValue(mvcTestResult.getResponse().getContentAsString(),
+                                OrderWorkflowResponse.class);
                 UUID createdOrderId = orderData.getOrderId();
                 assertThat(createdOrderId).isNotNull();
         }
@@ -57,8 +57,8 @@ class OrderControllerTest {
                                 .content(MockData.createOrderSubmitDataJson())
                                 .exchange();
 
-                OrderDataResponse orderData = objectMapper.readValue(mvcTestResult.getResponse().getContentAsString(),
-                                OrderDataResponse.class);
+                OrderWorkflowResponse orderData = objectMapper.readValue(mvcTestResult.getResponse().getContentAsString(),
+                                OrderWorkflowResponse.class);
                 UUID createdOrderId = orderData.getOrderId();
 
                 mvcTestResult = mockMvc.put().uri("/api/orders/" + createdOrderId)
@@ -82,8 +82,8 @@ class OrderControllerTest {
                                 .content(MockData.createOrderSubmitDataJson())
                                 .exchange();
 
-                OrderDataResponse orderData = objectMapper.readValue(mvcTestResult.getResponse().getContentAsString(),
-                                OrderDataResponse.class);
+                OrderWorkflowResponse orderData = objectMapper.readValue(mvcTestResult.getResponse().getContentAsString(),
+                                OrderWorkflowResponse.class);
                 UUID createdOrderId = orderData.getOrderId();
 
                 mvcTestResult = mockMvc.put().uri("/api/orders/" + createdOrderId)
@@ -95,7 +95,7 @@ class OrderControllerTest {
                 int status = mvcTestResult.getResponse().getStatus();
                 assertThat(status).isEqualTo(200);
                 orderData = objectMapper.readValue(mvcTestResult.getResponse().getContentAsString(),
-                                OrderDataResponse.class);
+                                OrderWorkflowResponse.class);
                 assertThat(orderData).isNotNull();
         }
 

@@ -42,14 +42,14 @@ public class OrderController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDataResponse createOrder(@RequestBody OrderData orderData) {
+    public OrderWorkflowResponse createOrder(@RequestBody OrderData orderData) {
         WorkflowEvent orderEvent = new OrderEvent();
         orderEvent.setWorkflowEventType(OrderEventType.CHECKOUT);
         orderEvent.setWorkflowData(orderData);
 
         orderEvent = orderWorkflowManager.process(orderEvent);
         orderData = (OrderData)orderEvent.getWorkflowData();
-        return new OrderDataResponse(orderData.getOrderId(), (((OrderEvent)orderEvent).getwWorkflowEventType()).toString());
+        return new OrderWorkflowResponse(orderData.getUserId(), orderData.getOrderId(), (((OrderEvent)orderEvent).getwWorkflowEventType()).toString());
     }
 
     // Pays for an order. The orderId is passed as a path variable and the payment
@@ -63,7 +63,7 @@ public class OrderController {
     })
     
     @PutMapping("/{orderId}")
-    public OrderDataResponse payForOrder(@PathVariable("orderId") UUID orderId, @RequestBody OrderData orderData) {
+    public OrderWorkflowResponse payForOrder(@PathVariable("orderId") UUID orderId, @RequestBody OrderData orderData) {
         if(orderData.getUserId().equals(0L)) {
             log.info(">> user not found: {}", orderData.getUserId());
             throw new OrderWorkflowException(">> user not found " + orderData.getUserId());
@@ -74,6 +74,6 @@ public class OrderController {
 
         orderEvent = orderWorkflowManager.process(orderEvent);
         orderData = (OrderData)orderEvent.getWorkflowData();
-        return new OrderDataResponse(orderData.getOrderId(), (((OrderEvent)orderEvent).getwWorkflowEventType()).toString());
+        return new OrderWorkflowResponse(orderData.getUserId(), orderData.getOrderId(), (((OrderEvent)orderEvent).getwWorkflowEventType()).toString());
     }
 }

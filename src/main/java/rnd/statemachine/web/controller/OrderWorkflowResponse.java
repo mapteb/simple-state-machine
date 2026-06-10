@@ -7,8 +7,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class OrderDataResponse {
+public class OrderWorkflowResponse {
+    private Long userId;
     private UUID orderId;
     private String message;
-    public OrderDataResponse() {}
+    public OrderWorkflowResponse() {}
 }
