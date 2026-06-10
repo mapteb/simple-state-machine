@@ -71,7 +71,7 @@ curl -X POST "http://localhost:8080/api/orders" -H "accept: */*" -H "Content-Typ
 ```
 An invalid payment (0.0) is submitted. We use the orderId returned from the above API.
 
-curl -X PUT "http://localhost:8080/api/orders/607b8d29-18d6-4f41-966e-7c26484a742a" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"payment\": 0.0, \"orderId\": \"607b8d29-18d6-4f41-966e-7c26484a742a\" }" -v
+curl -X PUT "http://localhost:8080/api/orders/607b8d29-18d6-4f41-966e-7c26484a742a" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"userId\": 123, \"payment\": 0.0, \"orderId\": \"607b8d29-18d6-4f41-966e-7c26484a742a\" }" -v
 
 << This API return an HTTP 500 error response >>
 ```
