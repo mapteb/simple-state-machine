@@ -2,7 +2,6 @@ package rnd.statemachine.web.controller;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +13,6 @@ public class MockData {
 
     static final UUID orderId = UUID.fromString("cacb4fd3-0139-4402-8ad7-9e8c5aba368a");
     static final UUID unknownOrderId = UUID.fromString("cacb4fd3-0139-4402-8ad7-9e8c5aba368b");
-    static final String illegalStateMessage = "Unknown orderId";
-
     
     public static UUID getOrderId() {
         return orderId;

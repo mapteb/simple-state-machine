@@ -2,8 +2,6 @@ package rnd.statemachine.orderworkflow.state;
 
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import rnd.statemachine.core.WorkflowData;
-import rnd.statemachine.core.WorkflowEvent;
-import rnd.statemachine.core.WorkflowEventType;
 
 @NoArgsConstructor
 @AllArgsConstructor

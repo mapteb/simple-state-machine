@@ -19,11 +19,6 @@ public class OrderWorkflowDB {
     }
 
     public void setCurrentState(UUID uuid, OrderState newCurrentState) {
-        // if (uuid == null || currentState.get(uuid) == null) {
-        //     currentState.put(UUID.fromString("000"), newCurrentState);
-        // }
-        // else {
-            this.currentState.merge(uuid, newCurrentState, (oldState, newState) -> newState);
-        // }
+        this.currentState.merge(uuid, newCurrentState, (oldState, newState) -> newState);
     }
 }

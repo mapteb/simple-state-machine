@@ -1,7 +1,5 @@
 package rnd.statemachine.web.controller;
 
-import rnd.statemachine.orderworkflow.data.OrderWorkflowDB;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

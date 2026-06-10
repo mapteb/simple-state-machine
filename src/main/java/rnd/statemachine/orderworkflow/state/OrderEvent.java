@@ -1,7 +1,5 @@
 package rnd.statemachine.orderworkflow.state;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import rnd.statemachine.core.WorkflowData;
 import rnd.statemachine.core.WorkflowEvent;
 import rnd.statemachine.core.WorkflowEventType;
