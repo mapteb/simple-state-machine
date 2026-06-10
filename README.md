@@ -33,7 +33,7 @@ To use this framework for a business process that has multiple steps
    - [OrderState](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderState.java)
    - [OrderEvent](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderEvent.java)
    - [OrderEventType](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderEventType.java)   
-   - [OrderEventProcessorRegistry](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/EventProcessorRegistry.java)
+   - [OrderEventProcessorRegistry](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/state/OrderEventProcessorRegistry.java)
 
 1. Setup a table to track the state values. In this demo we store the state in a HashMap. Also, for this quick demo we do not store the state history. Note that all the steps in a given process have one primary key. In the example above orderId is used as the key across the steps. In a business process like a timesheet application the key would be composite key like endOfWeekDate-userId, etc.
 
