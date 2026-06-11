@@ -37,11 +37,10 @@ To use this framework for a business process that has multiple steps
 
 1. Setup a table to track the state values. In this demo we store the state in a HashMap. Also, for this quick demo we do not store the state history. Note that all the steps in a given process have one primary key. In the example above orderId is used as the key across the steps. In a business process like a timesheet application the key would be composite key like endOfWeekDate-userId, etc.
 
-1. Implement the Processor class for each step. See the OrderProcessor and the PaymentProcessor classes for examples.
+1. Implement the Processor class for each step. See the [CheckoutProcessor](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/processor/CheckoutProcessor.java) and the [PaymentProcessor](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/orderworkflow/processor/PaymentProcessor.java) classes for examples.
 
-1. Create a controller class. See the OrderController for an example.
+1. Create a controller class. See the [OrderController](https://github.com/mapteb/simple-state-machine/blob/master/src/main/java/rnd/statemachine/web/controller/OrderController.java) for an example.
 
-1. 
 
 ### Build and Deploy
 
