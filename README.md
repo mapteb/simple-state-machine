@@ -1,4 +1,4 @@
-## Simple Statemachine
+## Simple State Machine
 
 A simple statemachine for Spring Boot projects. This project presents a simple statemachine framework and a sample usage of the framework for a project like an online order processing. This approach is best suited for business processes that involve multiple steps. Benefits of using this approach are discussed below.
 
