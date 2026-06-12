@@ -52,7 +52,7 @@ Integration tests can be run using the ".\gradlew test" command at the project r
 
 ### JMeter Testing
 
-Multi-user access can be tested using the JMeter [TestPlan script]().
+Multi-user access can be tested using the JMeter [TestPlan script](https://github.com/mapteb/simple-state-machine/blob/master/src/test/jmeter/ssm_apis_testing.jmx).
 
 ### Swagger Testing
 
