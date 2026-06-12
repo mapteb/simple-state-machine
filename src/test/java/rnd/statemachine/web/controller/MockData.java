@@ -4,9 +4,10 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import rnd.statemachine.orderworkflow.state.OrderData;
+import tools.jackson.databind.json.JsonMapper;
 
 @Component
 public class MockData {
@@ -18,8 +19,8 @@ public class MockData {
         return orderId;
     }
 
-    public static ObjectMapper getObjectMapper() {
-        return new ObjectMapper();
+    public static JsonMapper getJsonMapper() {
+        return new JsonMapper();
     }
 
     public static String createOrderSubmitDataJson() {
@@ -36,7 +37,7 @@ public class MockData {
 
     private static String toJson(Object obj) {
         try {
-            return getObjectMapper().writeValueAsString(obj);
+            return getJsonMapper().writeValueAsString(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

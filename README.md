@@ -50,6 +50,10 @@ Run the command ".\gradlew bootRun" at the prject root.
 
 Integration tests can be run using the ".\gradlew test" command at the project root.
 
+### JMeter Testing
+
+Multi-user access can be tested using the JMeter [TestPlan script]().
+
 ### Swagger Testing
 
 The Swagger UI can be used for integration testing http://localhost:8080/swagger-ui/index.html

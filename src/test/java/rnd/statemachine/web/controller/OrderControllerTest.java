@@ -9,9 +9,8 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.assertj.MvcTestResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.UUID;
 
@@ -27,7 +26,7 @@ class OrderControllerTest {
         @Autowired
         private MockMvcTester mockMvc;
 
-        private ObjectMapper objectMapper = MockData.getObjectMapper();
+        private JsonMapper objectMapper = MockData.getJsonMapper();
 
         @Test
         void withValidCart_whenCheckout_shouldReturnPaymentPending() throws Exception {
