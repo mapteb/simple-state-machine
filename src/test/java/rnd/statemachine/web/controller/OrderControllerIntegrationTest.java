@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.assertj.MvcTestResult;
 
 import lombok.extern.slf4j.Slf4j;
+import rnd.statemachine.orderworkflow.state.OrderEventType;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.util.UUID;
@@ -21,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles({ "test" })
-class OrderControllerTest {
+class OrderControllerIntegrationTest {
 
         @Autowired
         private MockMvcTester mockMvc;
@@ -29,7 +30,7 @@ class OrderControllerTest {
         private JsonMapper objectMapper = MockData.getJsonMapper();
 
         @Test
-        void withValidCart_whenCheckout_shouldReturnPaymentPending() throws Exception {
+        void withValidCart_whenCheckout_shouldReturnOrderCreated() throws Exception {
 
                 MvcTestResult mvcTestResult = mockMvc.post().uri("/api/orders")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -43,6 +44,7 @@ class OrderControllerTest {
                                 OrderWorkflowResponse.class);
                 UUID createdOrderId = orderData.getOrderId();
                 assertThat(createdOrderId).isNotNull();
+                assertThat(mvcTestResult.getResponse().getContentAsString()).contains(OrderEventType.ORDERCREATED.name());                
         }
 
         // @Disabled

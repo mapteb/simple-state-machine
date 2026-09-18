@@ -60,8 +60,7 @@ public class OrderController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Updates order payment"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Bad request"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
-    })
-    
+    })    
     @PutMapping("/{orderId}")
     public OrderWorkflowResponse payForOrder(@PathVariable("orderId") UUID orderId, @RequestBody OrderData orderData) {
         if(orderData.getUserId().equals(0L)) {
